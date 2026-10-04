@@ -4,7 +4,9 @@ Rentyzone Filo Yönetim Sistemi arayüz önizlemesi.
 
 Bu klasör bağımsız bir statik web sitesidir. `index.html`, `assets/`, `robots.txt`, `.nojekyll` ve `CNAME` dosyaları birlikte yayınlanır. Derleme veya bağımlılık kurulumu gerekmez.
 
-Hedef adres: https://fys.rentyzone.com
+Canlı demo: [fys.rentyzone.com](https://fys.rentyzone.com)
+
+4 Ekim 2026 tarihinde GitHub Pages yayını, Cloudflare CNAME kaydı ve HTTPS erişimi doğrulandı. HTTP bağlantıları HTTPS'e yönlendirilir.
 
 Demo gerçek müşteri verisi içermez. Yönetici oturumu, veri tabanı ve kayıt işlemleri henüz bağlı değildir; form alanlarına girilen bilgiler saklanmaz veya sunucuya gönderilmez.
 
@@ -18,7 +20,7 @@ GitHub Settings → Pages:
 - Branch: main
 - Folder: / (root)
 - Custom domain: fys.rentyzone.com
-- Enforce HTTPS: Sertifika hazır olduğunda etkinleştirin.
+- Enforce HTTPS: Etkin.
 
 Cloudflare, `rentyzone.com` DNS:
 
