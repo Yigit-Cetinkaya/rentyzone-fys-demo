@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="theme-color" content="#101f3d">
+    <meta name="description" content="Rentyzone Filo Yönetim Sistemi yönetim paneli.">
+    <title>Ana Sayfa | Rentyzone FYS</title>
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="stylesheet" href="assets/panel.css">
+    <script src="assets/panel.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">İçeriğe geç</a>
+    <div class="sidebar-backdrop" id="sidebar-backdrop" hidden></div>
+    <aside class="sidebar" id="sidebar" aria-label="Yönetim menüsü">
+      <a class="brand" href="#/ana-sayfa" aria-label="Rentyzone FYS ana sayfa">
+        <img src="assets/logo.png" width="210" height="70" alt="Rentyzone">
+        <span>FİLO YÖNETİM SİSTEMİ <b>FYS</b></span>
+      </a>
+      <button class="icon-button sidebar-close" id="sidebar-close" type="button" aria-label="Menüyü kapat" data-icon="x"></button>
+      <nav class="navigation" id="navigation" aria-label="Ana menü"></nav>
+      <div class="sidebar-footer">
+        <span class="workspace-icon" data-icon="building"></span>
+        <div><strong>Rentyzone</strong><span>Yönetim çalışma alanı</span></div>
+        <span class="version">v1.0</span>
+      </div>
+    </aside>
+
+    <div class="app-shell" id="app-shell">
+      <header class="topbar">
+        <button class="icon-button menu-toggle" id="menu-toggle" type="button" aria-label="Menüyü aç" aria-controls="sidebar" aria-expanded="false" data-icon="menu"></button>
+        <nav class="breadcrumbs" aria-label="Sayfa yolu"><a href="#/ana-sayfa">Çalışma alanı</a><span data-icon="chevron-right"></span><span id="breadcrumb-current">Ana Sayfa</span></nav>
+        <div class="topbar-actions">
+          <button class="search-trigger" id="search-trigger" type="button" aria-label="Menüde ara" aria-haspopup="dialog"><span data-icon="search"></span><span>Menüde ara...</span><kbd>Ctrl K</kbd></button>
+          <span class="preview-badge"><span></span>Arayüz önizlemesi</span>
+          <div class="avatar" aria-label="Rentyzone yönetim paneli">RZ</div>
+        </div>
+      </header>
+      <main id="main-content" tabindex="-1"></main>
+      <footer class="page-footer"><span>© <span id="current-year"></span> Rentyzone</span><span>Filo Yönetim Sistemi <span class="footer-dot">·</span> fys.rentyzone.com</span></footer>
+    </div>
+
+    <dialog class="search-dialog" id="search-dialog" aria-labelledby="search-title">
+      <div class="search-dialog-header"><span data-icon="search"></span><h2 class="sr-only" id="search-title">Menüde ara</h2><input id="menu-search" type="search" placeholder="Bir işlem veya menü ara..." autocomplete="off" aria-label="Menüde ara" aria-controls="search-results"><button class="icon-button" id="search-close" type="button" aria-label="Aramayı kapat" data-icon="x"></button></div>
+      <div class="search-results" id="search-results"></div>
+      <div class="search-dialog-footer"><span>İşlemlerinize hızlıca ulaşın</span><span><kbd>Esc</kbd> Kapat</span></div>
+    </dialog>
+    <noscript><div class="noscript-notice">Yönetim panelini kullanmak için tarayıcınızda JavaScript’i etkinleştirin.</div></noscript>
+  </body>
+</html>
