@@ -10,6 +10,8 @@ Canlı demo: [fys.rentyzone.com](https://fys.rentyzone.com)
 
 Demo gerçek müşteri verisi içermez. Yönetici oturumu, veri tabanı ve kayıt işlemleri henüz bağlı değildir; form alanlarına girilen bilgiler saklanmaz veya sunucuya gönderilmez.
 
+7 Ekim 2026 güncellemesi: Cari İşlemleri altına Teknik bölümü eklendi (Araç Bilgileri Tanımlama, Filo Listesi, Oto Hareket Raporu). Muhasebe menüsü Tahsilat/Tediye Girişi, Masraf Listesi Girişi ve Kasa İşlemleri sırasına getirildi. Ana sayfa ve işlem ekranlarındaki sağ yardımcı bölümler kaldırılarak ana içerikler genişletildi.
+
 ## GitHub Pages
 
 `Yigit-Cetinkaya/rentyzone-fys-demo` deposunun `main` dalı yalnızca bu demo sitesinin yayın dosyalarını içerir. Ana Rentyzone sitesinin kaynakları ve commit geçmişi bu depoya taşınmaz.

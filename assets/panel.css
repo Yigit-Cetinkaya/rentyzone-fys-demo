@@ -604,12 +604,12 @@ h1 {
 
 .dashboard-grid {
   display:grid;
-  grid-template-columns:minmax(0,1fr) 292px;
+  grid-template-columns:minmax(0,1fr);
   gap:22px;
   align-items:start
 }
 
-.dashboard-primary,.dashboard-secondary {
+.dashboard-primary {
   display:grid;
   gap:22px;
   min-width:0
@@ -797,138 +797,6 @@ h1 {
   height:13px
 }
 
-.quick-actions {
-  padding:0 15px 12px
-}
-
-.quick-action {
-  display:flex;
-  align-items:center;
-  gap:11px;
-  padding:12px 7px;
-  border-bottom:1px solid #f0f2f6
-}
-
-.quick-action:last-child {
-  border:0
-}
-
-.quick-action:hover {
-  background:#f7f9fb;
-  border-radius:8px
-}
-
-.quick-action-icon {
-  width:35px;
-  height:35px;
-  border:1px solid #e7edf2;
-  border-radius:9px;
-  display:grid;
-  place-items:center;
-  color:#637c92;
-  background:#fafcfe
-}
-
-.quick-action-icon svg {
-  width:17px;
-  height:17px
-}
-
-.quick-action strong {
-  display:block;
-  font-size:10px;
-  font-weight:550;
-  color:#46566d
-}
-
-.quick-action small {
-  display:block;
-  font-size:9px;
-  color:#939eae;
-  margin-top:3px
-}
-
-.quick-action>svg {
-  margin-left:auto;
-  color:#a4afbd;
-  width:14px;
-  height:14px
-}
-
-.workflow {
-  position:relative;
-  overflow:hidden;
-  border-radius:var(--radius);
-  background:var(--navy);
-  padding:22px;
-  color:white
-}
-
-.workflow:before {
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border:1px solid #ffffff0d;
-  border-radius:50%;
-  top:-107px;
-  right:-73px;
-  pointer-events:none
-}
-
-.workflow-label {
-  font-size:8px;
-  letter-spacing:1.7px;
-  color:#9bb7c8;
-  margin:0 0 7px
-}
-
-.workflow h2 {
-  font-size:17px;
-  font-weight:500;
-  line-height:1.45;
-  letter-spacing:-.4px;
-  margin:0 0 10px
-}
-
-.workflow>p:not(.workflow-label) {
-  font-size:10px;
-  color:#96a9c1;
-  line-height:1.8;
-  margin:0 0 17px
-}
-
-.workflow-step {
-  display:flex;
-  align-items:center;
-  gap:10px;
-  font-size:10px;
-  color:#d2ddea;
-  padding:8px 0
-}
-
-.workflow-step>span {
-  display:grid;
-  place-items:center;
-  font-size:8px;
-  color:#93c3c8;
-  border:1px solid #34465f;
-  width:21px;
-  height:21px;
-  border-radius:6px
-}
-
-.workflow-step>svg {
-  margin-left:auto;
-  width:13px;
-  height:13px;
-  color:#70869f
-}
-
-.workflow-step:hover {
-  color:white
-}
-
 .summary-row {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -1035,13 +903,38 @@ h1 {
 
 .module-layout {
   display:grid;
-  grid-template-columns:minmax(0,1fr) 280px;
+  grid-template-columns:minmax(0,1fr);
   gap:22px;
   align-items:start
 }
 
 .module-form {
   padding:24px
+}
+
+.fleet-search {
+  margin:0 22px 22px
+}
+
+.report-filters {
+  display:grid;
+  gap:18px;
+  padding:0 22px 22px
+}
+
+.report-filters .form-grid {
+  grid-template-columns:repeat(3,minmax(0,1fr))
+}
+
+.report-filters .button {
+  justify-self:start
+}
+
+.panel-header>svg {
+  width:20px;
+  height:20px;
+  color:#8b9aae;
+  flex-shrink:0
 }
 
 .form-section+.form-section {
@@ -1138,61 +1031,6 @@ h1 {
   margin:0
 }
 
-.module-note {
-  padding:20px 22px
-}
-
-.note-icon {
-  display:grid;
-  place-items:center;
-  width:36px;
-  height:36px;
-  background:var(--teal-light);
-  border-radius:10px;
-  color:var(--teal);
-  margin-bottom:14px
-}
-
-.module-note h2 {
-  font-size:12px;
-  font-weight:600;
-  margin:0 0 8px;
-  color:var(--navy)
-}
-
-.module-note p {
-  font-size:10px;
-  line-height:1.85;
-  color:#8390a2;
-  margin:0
-}
-
-.related-links {
-  display:grid;
-  gap:4px;
-  margin-top:16px;
-  padding-top:14px;
-  border-top:1px solid var(--line)
-}
-
-.related-links>a {
-  display:flex;
-  gap:9px;
-  align-items:center;
-  font-size:10px;
-  padding:9px 0;
-  color:#62768b
-}
-
-.related-links>a>svg {
-  width:15px;
-  height:15px
-}
-
-.related-links>a:hover {
-  color:var(--teal)
-}
-
 .setup-notice {
   display:flex;
   align-items:flex-start;
@@ -1268,11 +1106,6 @@ h1 {
   font-size:10px;
   margin:0;
   line-height:1.8
-}
-
-.module-secondary {
-  display:grid;
-  gap:20px
 }
 
 .search-dialog {
@@ -1419,7 +1252,7 @@ h1 {
     width:216px
   }
   .dashboard-grid {
-    grid-template-columns:minmax(0,1fr) 320px
+    grid-template-columns:minmax(0,1fr)
   }
   .metric {
     padding:22px 24px
@@ -1433,10 +1266,6 @@ h1 {
   }
   main {
     padding-top:37px
-  }
-  .quick-action {
-    padding-top:15px;
-    padding-bottom:15px
   }
 }
 
@@ -1479,10 +1308,10 @@ h1 {
     display:none
   }
   .dashboard-grid {
-    grid-template-columns:minmax(0,1fr) 255px;
+    grid-template-columns:minmax(0,1fr);
     gap:18px
   }
-  .dashboard-primary,.dashboard-secondary {
+  .dashboard-primary {
     gap:18px
   }
   .summary-row {
@@ -1498,7 +1327,7 @@ h1 {
     gap:19px
   }
   .module-layout {
-    grid-template-columns:minmax(0,1fr) 235px;
+    grid-template-columns:minmax(0,1fr);
     gap:18px
   }
   h1 {
@@ -1516,21 +1345,10 @@ h1 {
 
 @media(max-width:1050px) {
   .dashboard-grid {
-    grid-template-columns:1fr
-  }
-  .dashboard-secondary {
-    grid-template-columns:1fr 1fr
-  }
-  .workflow {
-    display:flex;
-    flex-direction:column;
-    justify-content:center
+    grid-template-columns:minmax(0,1fr)
   }
   .module-layout {
-    grid-template-columns:1fr
-  }
-  .module-secondary {
-    grid-template-columns:1fr 1fr
+    grid-template-columns:minmax(0,1fr)
   }
   .metrics {
     grid-template-columns:repeat(2,minmax(0,1fr))
@@ -1671,12 +1489,6 @@ h1 {
   .module-form,.record-selection {
     padding:21px
   }
-  .module-secondary {
-    grid-template-columns:1fr
-  }
-  .module-note p {
-    max-width:500px
-  }
   .search-trigger {
     padding:8px
   }
@@ -1724,7 +1536,7 @@ h1 {
     font-size:8px;
     padding-top:9px
   }
-  .summary-row,.dashboard-secondary {
+  .summary-row {
     grid-template-columns:1fr
   }
   .panel-header {
@@ -1758,6 +1570,9 @@ h1 {
   .form-grid {
     grid-template-columns:1fr
   }
+  .report-filters .form-grid {
+    grid-template-columns:1fr
+  }
   .form-bottom {
     align-items:flex-start;
     flex-direction:column
@@ -1789,15 +1604,6 @@ h1 {
   }
   .setup-notice {
     font-size:9px
-  }
-  .workflow h2 br {
-    display:none
-  }
-  .workflow {
-    padding:22px
-  }
-  .workflow-step {
-    padding:10px 0
   }
 }
 
