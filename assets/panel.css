@@ -405,33 +405,6 @@ main:focus {
   outline:none
 }
 
-.page-heading {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:18px;
-  margin-bottom:28px
-}
-
-.eyebrow {
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:var(--teal);
-  font-size:9px;
-  letter-spacing:1.9px;
-  font-weight:650;
-  text-transform:uppercase;
-  margin:0 0 9px
-}
-
-.eyebrow:before {
-  content:"";
-  width:14px;
-  height:2px;
-  background:var(--teal)
-}
-
 h1 {
   font-weight:600;
   font-size:27px;
@@ -439,18 +412,6 @@ h1 {
   letter-spacing:-1.15px;
   margin:0;
   color:var(--navy)
-}
-
-.page-heading p:not(.eyebrow) {
-  color:var(--muted);
-  margin:9px 0 0;
-  font-size:11px
-}
-
-.heading-actions {
-  display:flex;
-  align-items:center;
-  gap:10px
 }
 
 .button {
@@ -499,24 +460,6 @@ h1 {
   color:#8b96a7;
   border-color:#e6eaf0;
   box-shadow:none
-}
-
-.date-chip {
-  display:flex;
-  align-items:center;
-  gap:7px;
-  color:#657288;
-  font-size:10px;
-  padding:10px 12px;
-  border:1px solid var(--line);
-  background:#fff;
-  border-radius:8px;
-  white-space:nowrap
-}
-
-.date-chip svg {
-  width:15px;
-  height:15px
 }
 
 .metrics {
@@ -962,6 +905,150 @@ h1 {
   gap:20px 18px
 }
 
+.form-section h2+.form-grid {
+  margin-top:16px
+}
+
+.party-grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px
+}
+
+.party-card {
+  min-width:0;
+  margin:0;
+  padding:16px;
+  border:1px solid var(--line);
+  border-radius:10px
+}
+
+.party-card legend {
+  padding:0 5px;
+  font-size:13px;
+  font-weight:600;
+  color:var(--navy)
+}
+
+.party-card>p {
+  margin:0 0 16px;
+  font-size:10px;
+  color:var(--muted)
+}
+
+.party-fields {
+  display:grid;
+  gap:18px
+}
+
+.party-section>.payer-summary {
+  margin:18px 0 0;
+  padding:11px 14px;
+  border-radius:8px;
+  color:var(--teal);
+  background:var(--teal-light);
+  font-size:11px
+}
+
+.vehicle-sections {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:28px
+}
+
+.vehicle-sections>.form-section {
+  grid-column:1/-1;
+  margin:0;
+  padding:24px 0 0
+}
+
+.vehicle-sections>.form-section:first-child {
+  padding-top:0
+}
+
+.vehicle-sections>.compact-section {
+  grid-column:auto
+}
+
+.price-preview:empty {
+  display:none
+}
+
+.price-preview-grid {
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:18px;
+  margin:22px 0 0;
+  padding:18px;
+  background:#f8fafc;
+  border-radius:8px
+}
+
+.price-preview-grid dt {
+  color:var(--muted);
+  font-size:10px
+}
+
+.price-preview-grid dd {
+  margin:5px 0 0;
+  font-size:13px;
+  font-weight:600;
+  color:var(--navy)
+}
+
+.pricing-layout {
+  display:grid;
+  gap:24px;
+  min-width:0
+}
+
+.pricing-actions {
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px
+}
+
+.form-section>.pricing-actions {
+  margin-top:20px
+}
+
+#draft-prices:not(:empty) {
+  margin-top:22px;
+  border:1px solid var(--line);
+  border-radius:8px;
+  overflow:hidden
+}
+
+.price-table td,.price-table tbody th {
+  padding:15px 22px;
+  font-size:11px;
+  font-weight:400;
+  text-align:left
+}
+
+.price-table button.text-link {
+  padding:0;
+  border:0;
+  background:none
+}
+
+.saved-price-code+.saved-price-code {
+  border-top:1px solid var(--line)
+}
+
+.pricing-empty {
+  margin:0;
+  padding:0 22px 22px;
+  font-size:11px;
+  color:var(--muted)
+}
+
+.pricing-status {
+  margin:18px 0 0;
+  font-size:11px;
+  color:var(--text)
+}
+
 .field {
   display:flex;
   flex-direction:column;
@@ -1029,32 +1116,6 @@ h1 {
   color:#929dad;
   max-width:300px;
   margin:0
-}
-
-.setup-notice {
-  display:flex;
-  align-items:flex-start;
-  gap:10px;
-  padding:13px 16px;
-  background:#f0f6fa;
-  border:1px solid #dce8f0;
-  border-radius:9px;
-  color:#6b8398;
-  font-size:10px;
-  margin-bottom:23px;
-  line-height:1.7
-}
-
-.setup-notice svg {
-  width:17px;
-  height:17px;
-  flex-shrink:0;
-  margin-top:1px
-}
-
-.setup-notice strong {
-  font-weight:600;
-  color:#4b6880
 }
 
 .record-selection {
@@ -1257,9 +1318,6 @@ h1 {
   .metric {
     padding:22px 24px
   }
-  .page-heading {
-    margin-bottom:31px
-  }
   .empty-state {
     padding-top:43px;
     padding-bottom:43px
@@ -1304,9 +1362,6 @@ h1 {
   .preview-badge {
     padding-left:15px
   }
-  .date-chip {
-    display:none
-  }
   .dashboard-grid {
     grid-template-columns:minmax(0,1fr);
     gap:18px
@@ -1344,6 +1399,9 @@ h1 {
 }
 
 @media(max-width:1050px) {
+  .party-grid {
+    grid-template-columns:1fr
+  }
   .dashboard-grid {
     grid-template-columns:minmax(0,1fr)
   }
@@ -1363,14 +1421,8 @@ h1 {
   .preview-badge {
     font-size:9px
   }
-  .page-heading {
-    align-items:flex-start
-  }
   h1 {
     font-size:24px
-  }
-  .heading-actions {
-    padding-top:20px
   }
 }
 
@@ -1440,26 +1492,8 @@ h1 {
   main {
     padding:25px 20px
   }
-  .page-heading {
-    gap:14px;
-    margin-bottom:22px
-  }
-  .page-heading p:not(.eyebrow) {
-    font-size:10px;
-    max-width:270px
-  }
-  .eyebrow {
-    font-size:8px
-  }
   h1 {
     font-size:24px
-  }
-  .heading-actions {
-    padding-top:19px
-  }
-  .heading-actions .button {
-    padding:10px 11px;
-    font-size:10px
   }
   .nav-link {
     font-size:12px;
@@ -1498,15 +1532,17 @@ h1 {
 }
 
 @media(max-width:520px) {
-  .page-heading {
-    display:block
+  .vehicle-sections {
+    grid-template-columns:1fr
   }
-  .heading-actions {
-    padding-top:17px
+  .vehicle-sections>.compact-section {
+    grid-column:1/-1
   }
-  .heading-actions .button {
-    font-size:11px;
-    padding:10px 14px
+  .price-preview-grid {
+    grid-template-columns:repeat(2,minmax(0,1fr))
+  }
+  .form-bottom .pricing-actions {
+    width:100%
   }
   .metrics {
     gap:11px;
@@ -1601,9 +1637,6 @@ h1 {
   }
   .module-form,.record-selection {
     padding:18px
-  }
-  .setup-notice {
-    font-size:9px
   }
 }
 

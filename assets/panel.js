@@ -32,11 +32,12 @@
   };
   const icon = (name) => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (paths[name] || paths.file) + '</svg>';
   const escape = (value) => String(value).replace(/[&<>"']/g, (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+  const pricing = window.RentyzonePricing;
 
   const groups = [
     { title: '', items: [{ id: 'ana-sayfa', title: 'Ana Sayfa', icon: 'home' }] },
     { title: 'Rezervasyon İşlemleri', items: [
-      { id: 'rezervasyon-girisi', title: 'Rezervasyon Girişi', icon: 'calendar-plus', kind: 'reservation', description: 'Müşteri, araç ve kiralama bilgilerini tek bir yerden hazırlayın.' },
+      { id: 'rezervasyon-girisi', title: 'Rezervasyon Girişi', icon: 'calendar-plus', kind: 'reservation', description: 'İlgili tarafları, araç grubunu ve fiyat kodunu hazırlayın.' },
       { id: 'rezervasyon-iptal', title: 'Rezervasyon İptal', icon: 'calendar-x', kind: 'selection', record: 'rezervasyon', action: 'iptal etmek', description: 'İptal edilecek rezervasyonu bulun ve işlem detaylarını inceleyin.' }
     ] },
     { title: 'Sözleşme İşlemleri', items: [
@@ -63,6 +64,9 @@
       { id: 'tahsilat-tediye-girisi', title: 'Tahsilat/Tediye Girişi', icon: 'income', kind: 'payment', description: 'Cari hesapların tahsilat ve tediye bilgilerini hazırlayın.' },
       { id: 'masraf-listesi-girisi', title: 'Masraf Listesi Girişi', icon: 'receipt', kind: 'expense', description: 'Araç ve operasyon masraflarını kayıt altına almak için hazırlayın.' },
       { id: 'kasa-islemleri', title: 'Kasa İşlemleri', icon: 'wallet', kind: 'cash', description: 'Kasa giriş ve çıkış işlemlerini yönetin.' }
+    ] },
+    { title: 'Ayarlar', items: [
+      { id: 'fiyat-kodu-olusturma', title: 'Fiyat Kodu oluşturma', icon: 'receipt', kind: 'price-code', description: 'Araç grupları için günlük, haftalık, aylık ve yıllık tarifeleri düzenleyin.' }
     ] }
   ];
   const pages = groups.flatMap((group) => group.items.map((item) => ({ ...item, group: group.title })));
@@ -82,15 +86,10 @@
   document.querySelectorAll('[data-icon]').forEach((element) => { element.innerHTML = icon(element.dataset.icon); });
   document.getElementById('navigation').innerHTML = groups.map((group, index) => '<section class="nav-section"' + (group.title ? ' aria-labelledby="nav-group-' + index + '"' : '') + '>' + (group.title ? '<h2 id="nav-group-' + index + '">' + group.title + '</h2>' : '') + group.items.map((item) => '<a class="nav-link" href="#/' + item.id + '" data-page="' + item.id + '">' + icon(item.icon) + '<span>' + item.title + '</span></a>').join('') + '</section>').join('');
   const date = new Date();
-  const dateLabel = new Intl.DateTimeFormat('tr-TR', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Europe/Istanbul' }).format(date);
   document.getElementById('current-year').textContent = new Intl.DateTimeFormat('en', { year: 'numeric', timeZone: 'Europe/Istanbul' }).format(date);
 
   function link(id, text, css, symbol) {
     return '<a href="#/' + id + '" class="' + (css || 'text-link') + '">' + (symbol ? icon(symbol) : '') + text + '</a>';
-  }
-
-  function heading(title, description, section, actions) {
-    return '<div class="page-heading"><div><p class="eyebrow">' + escape(section) + '</p><h1>' + escape(title) + '</h1><p>' + escape(description) + '</p></div>' + (actions ? '<div class="heading-actions">' + actions + '</div>' : '') + '</div>';
   }
 
   const tabDefinitions = [
@@ -109,8 +108,7 @@
     const metrics = [
       ['Toplam araç', 'car'], ['Aktif sözleşme', 'file-check'], ['Bekleyen rezervasyon', 'calendar'], ['Açık Pass bilet', 'ticket']
     ];
-    return heading('Operasyonunuz, tek bir yerde.', 'Filonuzu, rezervasyonlarınızı ve günlük işlemlerinizi kolayca yönetin.', 'Ana Sayfa', '<span class="date-chip">' + icon('calendar') + dateLabel + '</span>' + link('rezervasyon-girisi', 'Rezervasyon Girişi', 'button button-primary', 'plus')) +
-      '<section class="metrics" aria-label="Filo özeti">' + metrics.map(([title, symbol]) => '<article class="metric"><div class="metric-head"><h2>' + title + '</h2><span class="metric-icon">' + icon(symbol) + '</span></div><span class="metric-value" aria-label="Veri henüz bağlı değil">—</span><div class="metric-foot">' + icon('clock') + 'Veri bağlantısı bekleniyor</div></article>').join('') + '</section>' +
+    return '<section class="metrics" aria-label="Filo özeti">' + metrics.map(([title, symbol]) => '<article class="metric"><div class="metric-head"><h2>' + title + '</h2><span class="metric-icon">' + icon(symbol) + '</span></div><span class="metric-value" aria-label="Veri henüz bağlı değil">—</span><div class="metric-foot">' + icon('clock') + 'Veri bağlantısı bekleniyor</div></article>').join('') + '</section>' +
       '<div class="dashboard-grid"><div class="dashboard-primary"><section class="panel" aria-labelledby="operations-title"><div class="panel-header"><div><h2 class="panel-title" id="operations-title">Günlük operasyon</h2><p class="panel-description" id="period-description">Bugünün rezervasyon, teslimat ve iade akışı</p></div><select class="period-select" id="operation-period" aria-label="Operasyon dönemi"><option value="today">Bugün</option><option value="week">Bu hafta</option><option value="month">Bu ay</option></select></div>' +
       '<div class="tabs" role="tablist" aria-label="Operasyon türü">' + tabDefinitions.map((tab, index) => '<button class="tab' + (index === 0 ? ' active' : '') + '" type="button" role="tab" id="tab-' + tab.id + '" data-tab="' + tab.id + '" aria-selected="' + (index === 0) + '" aria-controls="operations-content" tabindex="' + (index === 0 ? '0' : '-1') + '">' + tab.title + '</button>').join('') + '</div><div id="operations-content" role="tabpanel" tabindex="0" aria-labelledby="tab-all">' + operationContent() + '</div><div class="panel-foot">' + icon('info') + 'Veriler bağlandığında operasyon özeti otomatik güncellenecek.</div></section>' +
       '<div class="summary-row"><section class="panel summary-card"><div class="panel-header"><h2 class="panel-title">Filo durumu</h2>' + icon('car') + '</div><div class="fleet-states"><div class="fleet-state"><span><i class="status-dot"></i>Müsait</span><strong>—</strong></div><div class="fleet-state"><span><i class="status-dot blue"></i>Kirada</span><strong>—</strong></div><div class="fleet-state"><span><i class="status-dot amber"></i>Serviste</span><strong>—</strong></div></div><p class="summary-note">Araç durumları için veri bağlantısı bekleniyor.</p></section>' +
@@ -122,12 +120,17 @@
   const field = (name, label, type, options = {}) => ({ name, label, type: type || 'text', ...options });
   const customerField = () => field('customer', 'Müşteri / Cari', 'select', { disabled: true, options: ['Müşteri listesi bağlantı bekliyor'] });
   const vehicleField = () => field('vehicle', 'Araç / Plaka', 'select', { disabled: true, options: ['Araç listesi bağlantı bekliyor'] });
+  const vehicleGroupField = () => field('vehicle_group', 'Araç Grubu', 'select', { options: ['Araç grubu seçin', ...pricing.groups] });
+  const priceCodeField = () => field('price_code', 'Fiyat Kodu', 'select', { disabled: true, options: ['Önce araç grubu seçin'] });
   const noteField = () => field('notes', 'Açıklama', 'textarea', { full: true, placeholder: 'İşlemle ilgili notlarınızı yazın...', max: 2000 });
   const dateField = (name, label) => field(name, label, 'date');
   const amountField = () => field('amount', 'Tutar (₺)', 'number', { placeholder: '0,00', min: '0.01', step: '0.01' });
   const formDefinitions = {
-    reservation: [{ title: 'Rezervasyon bilgileri', description: 'Kiralama planına ait temel bilgiler.', fields: [customerField(), vehicleField(), dateField('pickup_date', 'Alış tarihi'), field('pickup_time', 'Alış saati', 'time'), dateField('return_date', 'Dönüş tarihi'), field('return_time', 'Dönüş saati', 'time'), field('pickup_branch', 'Alış ofisi', 'select', { disabled: true, options: ['Ofis listesi bağlantı bekliyor'] }), field('return_branch', 'Dönüş ofisi', 'select', { disabled: true, options: ['Ofis listesi bağlantı bekliyor'] }), noteField()] }],
-    contract: [{ title: 'Sözleşme bilgileri', description: 'Müşteri, araç ve teslimat detayları.', fields: [customerField(), vehicleField(), field('reservation_number', 'Rezervasyon numarası', 'text', { placeholder: 'Varsa rezervasyon numarası' }), dateField('delivery_date', 'Teslim tarihi'), dateField('return_date', 'Planlanan iade tarihi'), field('delivery_km', 'Teslim kilometresi', 'number', { min: '0', placeholder: '0' }), noteField()] }],
+    reservation: [
+      { title: 'Araç grubu ve fiyatlandırma', description: 'Rezervasyon araç grubuna göre hazırlanır; plaka sözleşme açılışında eşleştirilir.', fields: [vehicleGroupField(), priceCodeField()], extra: '<div id="reservation-prices" class="price-preview" aria-live="polite"></div>' },
+      { title: 'Rezervasyon bilgileri', description: 'Kiralama planına ait tarihler ve ofisler.', fields: [dateField('pickup_date', 'Alış tarihi'), field('pickup_time', 'Alış saati', 'time'), dateField('return_date', 'Dönüş tarihi'), field('return_time', 'Dönüş saati', 'time'), field('pickup_branch', 'Alış ofisi', 'select', { disabled: true, options: ['Ofis listesi bağlantı bekliyor'] }), field('return_branch', 'Dönüş ofisi', 'select', { disabled: true, options: ['Ofis listesi bağlantı bekliyor'] }), noteField()] }
+    ],
+    contract: [{ title: 'Sözleşme bilgileri', description: 'Araç eşleştirmesi ve teslimat detayları.', fields: [vehicleField(), field('reservation_number', 'Rezervasyon numarası', 'text', { placeholder: 'Varsa rezervasyon numarası' }), dateField('delivery_date', 'Teslim tarihi'), dateField('return_date', 'Planlanan iade tarihi'), field('delivery_km', 'Teslim kilometresi', 'number', { min: '0', placeholder: '0' }), noteField()] }],
     pass: [{ title: 'Pass bilet bilgileri', description: 'Biletin bağlı olduğu müşteri ve işlem detayları.', fields: [customerField(), field('reference', 'Referans numarası', 'text', { placeholder: 'Varsa referans numarası' }), dateField('issue_date', 'Düzenleme tarihi'), dateField('valid_until', 'Geçerlilik tarihi'), noteField()] }],
     person: [
       { title: 'Kişisel bilgiler', description: 'Müşterinin kimlik ve iletişim bilgileri.', fields: [field('first_name', 'Ad', 'text', { placeholder: 'Ad', autocomplete: 'given-name' }), field('last_name', 'Soyad', 'text', { placeholder: 'Soyad', autocomplete: 'family-name' }), field('identity', 'T.C. kimlik / Pasaport numarası', 'text', { placeholder: 'Kimlik veya pasaport numarası', max: 30 }), dateField('birth_date', 'Doğum tarihi'), field('phone', 'Telefon', 'tel', { placeholder: '+90 5XX XXX XX XX', autocomplete: 'tel' }), field('email', 'E-posta', 'email', { placeholder: 'ornek@eposta.com', autocomplete: 'email' })] },
@@ -136,20 +139,49 @@
     account: [{ title: 'Cari hesap bilgileri', description: 'Firma bilgileri ve iletişim detayları.', fields: [field('company', 'Firma / Cari unvanı', 'text', { full: true, placeholder: 'Firma unvanı', autocomplete: 'organization' }), field('tax_office', 'Vergi dairesi', 'text', { placeholder: 'Vergi dairesi' }), field('tax_number', 'Vergi numarası', 'text', { placeholder: 'Vergi numarası', max: 11 }), field('contact', 'Yetkili kişi', 'text', { placeholder: 'Ad soyad' }), field('phone', 'Telefon', 'tel', { placeholder: '+90', autocomplete: 'tel' }), field('email', 'E-posta', 'email', { full: true, placeholder: 'muhasebe@firma.com', autocomplete: 'email' }), field('address', 'Fatura adresi', 'textarea', { full: true, placeholder: 'Açık adres' }), noteField()] }],
     cash: [{ title: 'Kasa hareketi', description: 'İşlem türünü ve tutar bilgilerini hazırlayın.', fields: [field('register', 'Kasa', 'select', { disabled: true, options: ['Kasa listesi bağlantı bekliyor'] }), field('direction', 'İşlem türü', 'select', { options: ['İşlem türü seçin', 'Kasa girişi', 'Kasa çıkışı'] }), customerField(), dateField('transaction_date', 'İşlem tarihi'), amountField(), field('payment_method', 'Ödeme yöntemi', 'select', { options: ['Ödeme yöntemi seçin', 'Nakit', 'Kredi kartı', 'Havale / EFT'] }), noteField()] }],
     payment: [{ title: 'Tahsilat / Tediye bilgileri', description: 'Cari hesaba ait ödeme ve tahsilat detayları.', fields: [field('direction', 'İşlem türü', 'select', { options: ['İşlem türü seçin', 'Tahsilat', 'Tediye'] }), dateField('transaction_date', 'İşlem tarihi'), customerField(), field('register', 'Kasa', 'select', { disabled: true, options: ['Kasa listesi bağlantı bekliyor'] }), amountField(), field('payment_method', 'Ödeme yöntemi', 'select', { options: ['Ödeme yöntemi seçin', 'Nakit', 'Kredi kartı', 'Havale / EFT'] }), field('document_number', 'Belge numarası', 'text', { full: true, placeholder: 'Varsa belge numarası' }), noteField()] }],
-    vehicle: [{ title: 'Araç bilgileri', description: 'Araç kimliği ve teknik özellikleri.', fields: [field('plate', 'Plaka', 'text', { placeholder: '34 ABC 123', max: 20 }), field('brand', 'Marka', 'text', { placeholder: 'Araç markası' }), field('model', 'Model', 'text', { placeholder: 'Araç modeli' }), field('model_year', 'Model yılı', 'number', { min: '1900', placeholder: '2026' }), field('chassis_number', 'Şasi numarası', 'text', { placeholder: 'Şasi numarası', max: 17 }), field('mileage', 'Kilometre', 'number', { min: '0', placeholder: '0' }), field('fuel', 'Yakıt türü', 'select', { options: ['Yakıt türü seçin', 'Benzin', 'Dizel', 'Hibrit', 'Elektrik', 'LPG'] }), field('transmission', 'Vites türü', 'select', { options: ['Vites türü seçin', 'Manuel', 'Otomatik'] }), noteField()] }],
+    vehicle: [
+      { title: 'Araç bilgileri', description: 'Araç kimliği ve fiyatlandırmada kullanılacak grup.', fields: [field('plate', 'Plaka', 'text', { placeholder: '34 ABC 123', max: 20 }), vehicleGroupField(), field('chassis_number', 'Şasi numarası', 'text', { placeholder: 'Şasi numarası', max: 17 }), field('mileage', 'Kilometre', 'number', { min: '0', placeholder: '0' })] },
+      { title: 'Marka', compact: true, fields: [field('brand', 'Araç markası', 'text', { full: true, placeholder: 'Marka' })] },
+      { title: 'Model', compact: true, fields: [field('model', 'Araç modeli', 'text', { full: true, placeholder: 'Model' })] },
+      { title: 'Teknik özellikler', fields: [field('model_year', 'Model yılı', 'number', { min: '1900', placeholder: '2026' }), field('fuel', 'Yakıt türü', 'select', { options: ['Yakıt türü seçin', 'Benzin', 'Dizel', 'Hibrit', 'Elektrik', 'LPG'] }), field('transmission', 'Vites türü', 'select', { options: ['Vites türü seçin', 'Manuel', 'Otomatik'] })] },
+      { title: 'Muayene, kasko ve sigorta tarihleri', fields: [dateField('inspection_start', 'Muayene yapılış tarihi'), dateField('inspection_end', 'Muayene bitiş tarihi'), dateField('casco_start', 'Kasko yapılış tarihi'), dateField('casco_end', 'Kasko bitiş tarihi'), dateField('insurance_start', 'Sigorta yapılış tarihi'), dateField('insurance_end', 'Sigorta bitiş tarihi')] },
+      { title: 'Ek bilgiler', fields: [noteField()] }
+    ],
     expense: [{ title: 'Masraf bilgileri', description: 'Araç veya operasyon giderinin detayları.', fields: [field('category', 'Masraf türü', 'select', { options: ['Masraf türü seçin', 'Bakım / Onarım', 'Yakıt', 'Sigorta', 'Ofis gideri', 'Diğer'] }), dateField('expense_date', 'Masraf tarihi'), vehicleField(), amountField(), field('document_number', 'Fiş / Fatura numarası', 'text', { placeholder: 'Belge numarası' }), field('supplier', 'Tedarikçi / Cari', 'select', { disabled: true, options: ['Cari listesi bağlantı bekliyor'] }), noteField()] }]
   };
 
   function renderField(item) {
     const id = 'field-' + item.name;
     const attrs = ' id="' + id + '" name="' + item.name + '"' + (item.disabled ? ' disabled' : '') + (item.placeholder ? ' placeholder="' + escape(item.placeholder) + '"' : '') + (item.autocomplete ? ' autocomplete="' + item.autocomplete + '"' : '') + (item.min !== undefined ? ' min="' + item.min + '"' : '') + (item.step ? ' step="' + item.step + '"' : '') + (item.max ? ' maxlength="' + item.max + '"' : '');
-    const input = item.type === 'select' ? '<select' + attrs + '>' + item.options.map((option, index) => '<option value="' + (index ? escape(option) : '') + '">' + escape(option) + '</option>').join('') + '</select>' : item.type === 'textarea' ? '<textarea' + attrs + ' rows="3"></textarea>' : '<input type="' + item.type + '"' + attrs + '>';
+    const input = item.type === 'select' ? '<select' + attrs + '>' + item.options.map((option, index) => '<option value="' + escape(typeof option === 'object' ? option.value : index ? option : '') + '">' + escape(typeof option === 'object' ? option.label : option) + '</option>').join('') + '</select>' : item.type === 'textarea' ? '<textarea' + attrs + ' rows="3"></textarea>' : '<input type="' + item.type + '"' + attrs + '>';
     return '<div class="field' + (item.full ? ' field-full' : '') + '"><label for="' + id + '">' + escape(item.label) + '</label>' + input + '</div>';
+  }
+
+  function partySections() {
+    const senderFields = [field('sender_type', 'Gönderen türü', 'select', { options: ['Gönderen türü seçin', { value: 'person', label: 'Kişi' }, { value: 'company', label: 'Firma / Cari' }] }), field('sender', 'Gönderen kişi / cari', 'select', { disabled: true, options: ['Kayıt listesi bağlantı bekliyor'] })];
+    const driverFields = [field('driver', 'Sürücü / yolcu seçimi', 'select', { disabled: true, options: ['Kişi listesi bağlantı bekliyor'] })];
+    const payerFields = [field('payer_type', 'Ödeyen türü', 'select', { options: ['Ödeyen türü seçin', { value: 'driver', label: 'Sürücü / yolcu' }, { value: 'person', label: 'Kişi' }, { value: 'company', label: 'Firma / Cari' }] }), field('payer', 'Ödeyen kişi / cari', 'select', { disabled: true, options: ['Önce ödeyen türü seçin'] })];
+    return '<section class="form-section party-section"><div class="party-grid">' + [['Gönderen', 'Yönlendiren kişi veya firma.', senderFields], ['Sürücü / yolcu', 'Aracı kullanacak veya seyahat edecek kişi.', driverFields], ['Ödeyen', 'Sözleşmenin ödemesini yapacak kişi veya firma.', payerFields]].map(([title, description, fields]) => '<fieldset class="party-card"><legend>' + title + '</legend><p>' + description + '</p><div class="party-fields">' + fields.map(renderField).join('') + '</div></fieldset>').join('') + '</div><p class="payer-summary" id="payer-summary" role="status" aria-live="polite" hidden></p></section>';
+  }
+
+  function updateParties() {
+    const senderType = main.querySelector('#field-sender_type');
+    const payerType = main.querySelector('#field-payer_type');
+    if (!senderType || !payerType) return;
+    const sender = main.querySelector('#field-sender');
+    sender.options[0].textContent = senderType.value === 'company' ? 'Cari firma listesi bağlantı bekliyor' : senderType.value === 'person' ? 'Kişi listesi bağlantı bekliyor' : 'Önce gönderen türü seçin';
+    const payer = main.querySelector('#field-payer');
+    const labels = { driver: ['Sürücü / yolcu ödemeli', 'Sürücü / yolcu seçimine göre eşleşecek'], person: ['Kişi ödemeli', 'Ödeyen kişi listesi bağlantı bekliyor'], company: ['Firma ödemeli', 'Ödeyen cari firma listesi bağlantı bekliyor'] };
+    const selected = labels[payerType.value];
+    payer.options[0].textContent = selected ? selected[1] : 'Önce ödeyen türü seçin';
+    const summary = main.querySelector('#payer-summary');
+    summary.textContent = selected ? 'Ödeme sorumluluğu: ' + selected[0] : '';
+    summary.hidden = !selected;
   }
 
   function vehicleTable(page) {
     const isReport = page.kind === 'vehicle-report';
-    const columns = isReport ? ['Tarih', 'Plaka', 'Hareket türü', 'Kilometre', 'Açıklama'] : ['Plaka', 'Marka / Model', 'Model yılı', 'Yakıt / Vites', 'Kilometre', 'Durum'];
+    const columns = isReport ? ['Tarih', 'Plaka', 'Hareket türü', 'Kilometre', 'Açıklama'] : ['Plaka', 'Araç grubu', 'Marka / Model', 'Model yılı', 'Yakıt / Vites', 'Kilometre', 'Durum'];
     const filters = isReport ? '<form class="report-filters" autocomplete="off" aria-label="Rapor filtreleri"><div class="form-grid">' + [vehicleField(), dateField('start_date', 'Başlangıç tarihi'), dateField('end_date', 'Bitiş tarihi')].map(renderField).join('') + '</div><button class="button button-primary" type="submit" disabled>' + icon('lock') + 'Raporu görüntüle</button></form>' : '<div class="fleet-search record-search">' + icon('search') + '<input type="search" aria-label="Araç ara" placeholder="Plaka, marka veya model ile arama veri bağlantısıyla kullanılabilecek" disabled></div>';
     return '<section class="panel"><div class="panel-header"><div><h2 class="panel-title">' + (isReport ? 'Araç hareketleri' : 'Filodaki araçlar') + '</h2><p class="panel-description">' + (isReport ? 'Seçilen dönemin araç hareketleri' : 'Araç bilgileri ve filo durumu') + '</p></div>' + icon(page.icon) + '</div>' + filters + '<div class="table-wrap"><table class="operations-table"><caption class="sr-only">' + escape(page.title) + '</caption><thead><tr>' + columns.map((column) => '<th scope="col">' + column + '</th>').join('') + '</tr></thead><tbody><tr><td colspan="' + columns.length + '"><div class="empty-state"><span class="empty-visual">' + icon(page.icon) + '</span><h3>' + (isReport ? 'Araç hareketleri henüz bağlı değil' : 'Filo kayıtları henüz bağlı değil') + '</h3><p>' + (isReport ? 'Teslimat, iade ve diğer araç hareketleri veri bağlantısı tamamlandığında burada listelenecek.' : 'Filodaki araçlar veri bağlantısı tamamlandığında burada listelenecek.') + '</p></div></td></tr></tbody></table></div></section>';
   }
@@ -160,10 +192,14 @@
       content = '<section class="panel record-selection"><h2>İşlem yapılacak kaydı seçin</h2><p>' + escape(page.record.charAt(0).toLocaleUpperCase('tr-TR') + page.record.slice(1)) + ' numarası, müşteri veya plaka ile arayın.</p><div class="record-search">' + icon('search') + '<input type="search" aria-label="Kayıt ara" placeholder="Kayıt arama, veri bağlantısıyla kullanılabilecek" disabled></div><div class="empty-state"><span class="empty-visual">' + icon(page.icon) + '</span><h3>Kayıtlar henüz bağlı değil</h3><p>' + escape(page.record.charAt(0).toLocaleUpperCase('tr-TR') + page.record.slice(1)) + ' kayıtları veri bağlantısı tamamlandığında burada listelenecek.</p></div><p class="selection-hint">İşleme devam etmek için önce ' + escape(page.action) + ' istediğiniz kaydı seçmeniz gerekecek.</p></section>';
     } else if (page.kind === 'fleet' || page.kind === 'vehicle-report') {
       content = vehicleTable(page);
+    } else if (page.kind === 'price-code') {
+      content = pricing.renderEditor();
     } else {
-      content = '<form class="panel module-form" id="module-form" aria-label="' + escape(page.title) + '" autocomplete="off">' + formDefinitions[page.kind].map((section) => '<section class="form-section"><h2>' + section.title + '</h2><p>' + section.description + '</p><div class="form-grid">' + section.fields.map(renderField).join('') + '</div></section>').join('') + '<div class="form-bottom"><p id="save-description">Kaydetme, yönetici girişi ve veri bağlantısı tamamlandığında etkinleşecek.</p><button class="button button-primary" type="submit" disabled aria-describedby="save-description">' + icon('lock') + 'Kaydet</button></div></form>';
+      const parties = page.kind === 'reservation' || page.kind === 'contract' ? partySections() : '';
+      const sections = formDefinitions[page.kind].map((section) => '<section class="form-section' + (section.compact ? ' compact-section' : '') + '"><h2>' + section.title + '</h2>' + (section.description ? '<p>' + section.description + '</p>' : '') + '<div class="form-grid">' + section.fields.map(renderField).join('') + '</div>' + (section.extra || '') + '</section>').join('');
+      content = '<form class="panel module-form" id="module-form" aria-label="' + escape(page.title) + '" autocomplete="off">' + parties + (page.kind === 'vehicle' ? '<div class="vehicle-sections">' + sections + '</div>' : sections) + '<div class="form-bottom"><p id="save-description">Arayüz önizlemesi; bu formdaki bilgiler kaydedilmez veya sunucuya gönderilmez.</p><button class="button button-primary" type="submit" disabled aria-describedby="save-description">' + icon('lock') + 'Kaydet</button></div></form>';
     }
-    return heading(page.title, page.description, page.group, link('ana-sayfa', 'Ana Sayfa', 'button button-secondary', 'home')) + '<div class="setup-notice">' + icon('info') + '<div><strong>Arayüz hazırlık aşamasında.</strong> Bu ekranın veri bağlantısı henüz kurulmadı; girilen bilgiler kaydedilmez veya sunucuya gönderilmez.</div></div><div class="module-layout">' + content + '</div>';
+    return '<div class="module-layout">' + content + '</div>';
   }
 
   function setMenu(open, restoreFocus = true) {
@@ -194,7 +230,10 @@
       if (active) anchor.setAttribute('aria-current', 'page');
       else anchor.removeAttribute('aria-current');
     });
-    main.innerHTML = !page ? heading('Sayfa bulunamadı', 'Bu bağlantı bir yönetim ekranıyla eşleşmiyor.', 'Çalışma alanı', link('ana-sayfa', 'Ana Sayfaya Dön', 'button button-primary', 'home')) : page.id === 'ana-sayfa' ? dashboard() : moduleView(page);
+    main.innerHTML = '<h1 class="sr-only">' + escape(currentPage.title) + '</h1>' + (!page ? '<section class="panel record-selection"><p>Bu bağlantı bir yönetim ekranıyla eşleşmiyor.</p>' + link('ana-sayfa', 'Ana Sayfaya Dön', 'button button-primary', 'home') + '</section>' : page.id === 'ana-sayfa' ? dashboard() : moduleView(page));
+    if (page && page.kind === 'price-code') pricing.bindEditor(main);
+    if (page && page.kind === 'reservation') pricing.updateReservation(main);
+    updateParties();
     setMenu(false, false);
     if (searchDialog.open) searchDialog.close();
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -290,6 +329,8 @@
     if (next !== undefined) { event.preventDefault(); selectTab(tabDefinitions[next].id, true); }
   });
   main.addEventListener('change', (event) => {
+    if (event.target.id === 'field-sender_type' || event.target.id === 'field-payer_type') updateParties();
+    if (event.target.id === 'field-vehicle_group' || event.target.id === 'field-price_code') pricing.updateReservation(main);
     if (event.target.id !== 'operation-period') return;
     operationPeriod = event.target.value;
     const labels = { today: ['Günlük operasyon', 'Bugünün rezervasyon, teslimat ve iade akışı'], week: ['Haftalık operasyon', 'Bu haftanın rezervasyon, teslimat ve iade akışı'], month: ['Aylık operasyon', 'Bu ayın rezervasyon, teslimat ve iade akışı'] };
@@ -297,8 +338,8 @@
     document.getElementById('period-description').textContent = labels[operationPeriod][1];
     document.getElementById('operations-content').innerHTML = operationContent();
   });
-  // Prevent implicit Enter submissions as well as button submissions. These
-  // forms must never appear to save or place personal information in a URL.
+  // Prevent navigation and URL submissions for every form. The tariff editor
+  // handles its own non-personal browser storage; operation forms stay previews.
   main.addEventListener('submit', (event) => { event.preventDefault(); });
   window.addEventListener('hashchange', renderPage);
   renderPage();

@@ -8,9 +8,11 @@ Canlı demo: [fys.rentyzone.com](https://fys.rentyzone.com)
 
 4 Ekim 2026 tarihinde GitHub Pages yayını, Cloudflare CNAME kaydı ve HTTPS erişimi doğrulandı. HTTP bağlantıları HTTPS'e yönlendirilir.
 
-Demo gerçek müşteri verisi içermez. Yönetici oturumu, veri tabanı ve kayıt işlemleri henüz bağlı değildir; form alanlarına girilen bilgiler saklanmaz veya sunucuya gönderilmez.
+Demo gerçek müşteri verisi içermez. Yönetici oturumu, veri tabanı ve operasyon kayıt işlemleri henüz bağlı değildir; kişi, araç, rezervasyon ve sözleşme formlarındaki bilgiler saklanmaz veya sunucuya gönderilmez. Yalnızca fiyat kodu adı ve araç gruplarının dönem tarifeleri bu tarayıcıda saklanır.
 
 7 Ekim 2026 güncellemesi: Cari İşlemleri altına Teknik bölümü eklendi (Araç Bilgileri Tanımlama, Filo Listesi, Oto Hareket Raporu). Muhasebe menüsü Tahsilat/Tediye Girişi, Masraf Listesi Girişi ve Kasa İşlemleri sırasına getirildi. Ana sayfa ve işlem ekranlarındaki sağ yardımcı bölümler kaldırılarak ana içerikler genişletildi.
+
+Form güncellemesi: Sayfaların üst başlık ve aksiyon alanları kaldırıldı. Rezervasyon ve sözleşmede Gönderen, Sürücü / yolcu ve Ödeyen ayrıldı; ödeme sorumluluğu ödeyen türüne göre gösterilir. Rezervasyon 40 araç grubu ve fiyat kodu ile hazırlanır; plaka yalnızca sözleşmede eşleştirilir. Araç kaydında grup, ayrı marka/model bölümleri ve muayene, kasko, sigorta yapılış/bitiş tarihleri bulunur. Ayarlar → Fiyat Kodu oluşturma ekranında aynı kodun birden fazla grubuna günlük, haftalık, aylık ve yıllık fiyat eklenebilir; kayıtlı kodlar düzenlenebilir ve rezervasyonda gruba göre filtrelenir. Demo tarifeleri tarayıcıya özeldir; ortak sunucu kaydı değildir.
 
 ## GitHub Pages
 
