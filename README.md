@@ -14,6 +14,8 @@ Demo gerçek müşteri verisi içermez. Yönetici oturumu, veri tabanı ve opera
 
 Form güncellemesi: Sayfaların üst başlık ve aksiyon alanları kaldırıldı. Rezervasyon ve sözleşmede Gönderen, Sürücü / yolcu ve Ödeyen ayrıldı; ödeme sorumluluğu ödeyen türüne göre gösterilir. Rezervasyon 40 araç grubu ve fiyat kodu ile hazırlanır; plaka yalnızca sözleşmede eşleştirilir. Araç kaydında grup, ayrı marka/model bölümleri ve muayene, kasko, sigorta yapılış/bitiş tarihleri bulunur. Ayarlar → Fiyat Kodu oluşturma ekranında aynı kodun birden fazla grubuna günlük, haftalık, aylık ve yıllık fiyat eklenebilir; kayıtlı kodlar düzenlenebilir ve rezervasyonda gruba göre filtrelenir. Demo tarifeleri tarayıcıya özeldir; ortak sunucu kaydı değildir.
 
+Ana sayfa yerleşimi: Filo durumu ve Muhasebe özeti alt kartları kaldırıldı. Günlük operasyon paneli kalan ekran yüksekliğini doldurur; ana sayfa dikey kaydırma gerektirmez. Daha uzun işlem formları kendi doğal sayfa akışında kalır.
+
 ## GitHub Pages
 
 `Yigit-Cetinkaya/rentyzone-fys-demo` deposunun `main` dalı yalnızca bu demo sitesinin yayın dosyalarını içerir. Ana Rentyzone sitesinin kaynakları ve commit geçmişi bu depoya taşınmaz.
